@@ -28,11 +28,11 @@
 		<div>
 			<p>1) Which attribute will defer the execution of the javascript in an external file until the entire page's HTML has loaded?</p>
 		
-			<input type="radio" name="renderblock" value="async">a) async<br>
-			<input type="radio" name="renderblock" value="defer">b) defer<br>
-			<input type="radio" name="renderblock" value="wait">c) wait<br>
+			<label><input type="radio" name="renderblock" value="a">a) async</label><br>
+			<label><input type="radio" name="renderblock" value="b">b) defer</label><br>
+			<label><input type="radio" name="renderblock" value="c">c) wait</label><br>
 			
-			<p> 2) What is the output of the following script?<p>
+			<p> 2) What is the output of the following script?</p>
 			
 			<div class="codesnippet">
 				<span><span class="keyword">var</span> a = <span class="number">6</span>;</span><br>
@@ -40,11 +40,11 @@
 				<span><span class="keyword">console</span>.log(a+b);</span>
 			</div>
 			
-			<input type="radio" name="addition" value="9">a) 9<br>
-			<input type="radio" name="addition" value="63">b) 63<br>
-			<input type="radio" name="addition" value="18">c) 18<br>
+			<label><input type="radio" name="addition" value="a">a) 9</label><br>
+			<label><input type="radio" name="addition" value="b">b) 63</label><br>
+			<label><input type="radio" name="addition" value="c">c) 18</label><br>
 			
-			<p> 3) What is the output of the following script?<p>
+			<p> 3) What is the output of the following script?</p>
 			
 			<div class="codesnippet">
 				<span><span class="keyword">var</span> pens = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];</span><br>
@@ -55,10 +55,23 @@
 				
 			</div>
 			
-			<input type="radio" name="array" value="a">a) red, green, blue, orange, purple, yellow, black<br>
-			<input type="radio" name="array" value="b">b) black, yellow, purple, orange, blue, green, red<br>
-			<input type="radio" name="array" value="c">c) black, yellow, blue, green, red, purple, orange<br>
-			<input type="radio" name="array" value="d">d) orange, purple, red, green, blue, yellow, black<br>
+			<label><input type="radio" name="array" value="a">a) red, green, blue, orange, purple, yellow, black</label><br>
+			<label><input type="radio" name="array" value="b">b) black, yellow, purple, orange, blue, green, red</label><br>
+			<label><input type="radio" name="array" value="c">c) black, yellow, blue, green, red, purple, orange</label><br>
+			<label><input type="radio" name="array" value="d">d) black, yellow, red, green, blue, purple, orange</label><br>
+			
+			<p> 4) What is the difference between var and let?</p>
+			
+			<label><input type="radio" name="let" value="a">a) var is function scoped and let is block scoped</label><br>
+			<label><input type="radio" name="let" value="b">b) var is block scoped and let is function scoped</label><br>
+			<label><input type="radio" name="let" value="c">c) var is global scoped and let is function scoped</label><br>
+			<label><input type="radio" name="let" value="d">d) var is function scoped and let is global scoped</label><br>
+			
+			<p> 5) Which is not a correct way to gain access to an object's property?</p>
+			
+			<label><input type="radio" name="notation" value="a">a) course:title</label><br>
+			<label><input type="radio" name="notation" value="b">b) course.title</label><br>
+			<label><input type="radio" name="notation" value="c">c) course[<span class="string">"title"</span>]</label><br>
 		</div>
 	</body>
 </html>
