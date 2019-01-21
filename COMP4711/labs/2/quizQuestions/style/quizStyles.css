@@ -1,0 +1,12 @@
+.keyword {
+	color: #892DDA;
+}
+.string {
+	color: #BB472E;
+}
+.number {
+	color: #0000FF;
+}
+.codesnippet {
+	margin: 0 0 16px 16px;
+}

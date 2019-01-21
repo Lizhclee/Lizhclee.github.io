@@ -1,0 +1,7 @@
+button {
+    display: inline-block;
+    width: 30px;
+}
+#buttonWrapper {
+    width: 390px;
+}
