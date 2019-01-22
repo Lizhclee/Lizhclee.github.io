@@ -1,6 +1,6 @@
 window.onload = function generateQuestions() {
-	let questions = {
-		"q1" : {
+	let questions = [
+		{
 			"name" : "renderblock",
 			"quest" : "Which attribute will defer the execution of the javascript in an external file until the entire page's HTML has loaded?",
 			"choices" : {
@@ -9,7 +9,7 @@ window.onload = function generateQuestions() {
 				"c" : "wait"
 			}
 		},
-		"q2" : {
+		{
 			"name" : "addition",
 			"quest" : "What is the output of the following script?",
 			"codesnippet" : "<span><span class=\"keyword\">var</span> a = <span class=\"number\">6</span>;</span><br><span><span class=\"keyword\">var</span> b = <span class=\"string\">\"3\"</span>;</span><br><span><span class=\"keyword\">console</span>.log(a+b);</span>",
@@ -19,7 +19,7 @@ window.onload = function generateQuestions() {
 				"c" : "18"
 			}
 		},
-		"q3" : {
+		{
 			"name" : "array",
 			"quest" : "What is the output of the following script?",
 			"codesnippet" : "<span><span class=\"keyword\">var</span> pens = [<span class=\"string\">\"red\"</span>, <span class=\"string\">\"green\"</span>, <span class=\"string\">\"blue\"</span>];</span><br><span>pens.unshift(<span class=\"string\">\"orange\"</span>, <span class=\"string\">\"purple\"</span>);</span><br><span>pens.push(<span class=\"string\">\"yellow\"</span>, <span class=\"string\">\"black\"</span>);</span><br><span>pens.reverse();</span><br><span><span class=\"keyword\">console</span>.log(pens.join(<span class=\"string\">\", \"</span>));</span>",
@@ -30,7 +30,7 @@ window.onload = function generateQuestions() {
 				"d" : "black, yellow, red, green, blue, purple, orange"
 			}
 		},
-		"q4" : {
+		{
 			"name" : "let",
 			"quest" : "What is the difference between var and let?",
 			"choices" : {
@@ -40,7 +40,7 @@ window.onload = function generateQuestions() {
 				"d" : "var is function scoped and let is global scoped"
 			}
 		},
-		"q5" : {
+		{
 			"name" : "notation",
 			"quest" : "Which is not a correct way to gain access to an object's property?",
 			"choices" : {
@@ -49,12 +49,11 @@ window.onload = function generateQuestions() {
 				"c" : "course[<span class=\"string\">\"title\"</span>]"
 			}
 		}
-	};
+	];
 	
 	let answers = [1, 1, 2, 0, 0];
 	
-	let keys = Object.keys(questions);
-	let userChoice = getUserChoice(keys.length);
+	let userChoice = getUserChoice(questions.length);
 	
 	const page = document.getElementById("questionWrapper");
 	
@@ -64,26 +63,25 @@ window.onload = function generateQuestions() {
 		page.appendChild(p);
 	} else {	
 		for (let i = 0; i < userChoice; i++) {
-			let q = keys[i];
 			let p = document.createElement("p");
-			p.appendChild(document.createTextNode((i+1) + ") " + questions[q].quest));
+			p.appendChild(document.createTextNode((i+1) + ") " + questions[i].quest));
 			page.appendChild(p);
 			
-			if (questions[q].codesnippet) {
+			if (questions[i].codesnippet) {
 				let div = document.createElement("div");
 				div.setAttribute("class", "codesnippet");
-				div.innerHTML = questions[q].codesnippet;
+				div.insertAdjacentHTML("beforeend", questions[i].codesnippet);
 				page.appendChild(div);
 			}
 			
-			for (choice in questions[q].choices) {
+			for (choice in questions[i].choices) {
 				let label = document.createElement("label");
 				let input = document.createElement("input");
 				input.setAttribute("type", "radio");
-				input.setAttribute("name", questions[q].name);
+				input.setAttribute("name", questions[i].name);
 				input.setAttribute("value", choice);
 				label.appendChild(input);
-				label.insertAdjacentHTML("beforeend", choice + ") " + questions[q].choices[choice]);
+				label.insertAdjacentHTML("beforeend", choice + ") " + questions[i].choices[choice]);
 				page.appendChild(label);
 				page.appendChild(document.createElement("br"));
 			}
