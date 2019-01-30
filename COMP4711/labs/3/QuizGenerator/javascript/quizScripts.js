@@ -1,0 +1,448 @@
+function init() {
+	localStorage.removeItem("questions");
+	localStorage.removeItem("answers");
+	let questions = {
+		"1" : {
+			"name" : "q1",
+			"quest" : "Which attribute will defer the execution of the javascript in an external file until the entire page's HTML has loaded?",
+			"choices" : {
+				"a" : "async",
+				"b" : "defer",
+				"c" : "wait",
+				"d" : "after"
+			}
+		},
+		"2" : {
+			"name" : "q2",
+			"quest" : "What is the output of the following script?",
+			"codesnippet" : "<span><span class=\"keyword\">var</span> a = <span class=\"number\">6</span>;</span><br><span><span class=\"keyword\">var</span> b = <span class=\"string\">\"3\"</span>;</span><br><span><span class=\"keyword\">console</span>.log(a+b);</span>",
+			"choices" : {
+				"a" : "9",
+				"b" : "63",
+				"c" : "18",
+				"d" : "0"
+			}
+		},
+		"3" : {
+			"name" : "q3",
+			"quest" : "What is the output of the following script?",
+			"codesnippet" : "<span><span class=\"keyword\">var</span> pens = [<span class=\"string\">\"red\"</span>, <span class=\"string\">\"green\"</span>, <span class=\"string\">\"blue\"</span>];</span><br><span>pens.unshift(<span class=\"string\">\"orange\"</span>, <span class=\"string\">\"purple\"</span>);</span><br><span>pens.push(<span class=\"string\">\"yellow\"</span>, <span class=\"string\">\"black\"</span>);</span><br><span>pens.reverse();</span><br><span><span class=\"keyword\">console</span>.log(pens.join(<span class=\"string\">\", \"</span>));</span>",
+			"choices" : {
+				"a" : "red, green, blue, orange, purple, yellow, black",
+				"b" : "black, yellow, purple, orange, blue, green, red",
+				"c" : "black, yellow, blue, green, red, purple, orange",
+				"d" : "black, yellow, red, green, blue, purple, orange"
+			}
+		},
+		"4" : {
+			"name" : "q4",
+			"quest" : "What is the difference between var and let?",
+			"choices" : {
+				"a" : "var is function scoped and let is block scoped",
+				"b" : "var is block scoped and let is function scoped",
+				"c" : "var is global scoped and let is function scoped",
+				"d" : "var is function scoped and let is global scoped"
+			}
+		},
+		"5" : {
+			"name" : "q5",
+			"quest" : "Which is a correct way to gain access to an object's property?",
+			"choices" : {
+				"a" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course[<span class=\"string\">\"title\"</span>]</span>",
+				"b" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course{<span class=\"string\">\"title\"</span>}</span>",
+				"c" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course:title</span>",
+				"d" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course->title</span>"
+			}
+		}
+	};
+	
+	let answers = [1, 1, 2, 0, 0];
+	storeQuiz(questions, answers);
+}
+
+// Driver for generating the admin.html page
+function generateAdmin() {
+	init();
+	let questions = retrieveQuiz();
+	let nextNumber = getNextQuestionNumber();
+
+	if (questions === null) {
+		// draw one empty question
+		addAdminQuestion(nextNumber);
+	} else {
+		// draw the existing questions
+		let numQuestions = Object.keys(questions).length;
+		let answers = retrieveAnswers();
+		
+		for (let i = 1; i <= numQuestions; ++i) {
+			let inputSet = addAdminQuestion(i);
+			let q = questions[i];
+
+			populateInput(inputSet, q, answers[i-1]);
+		}
+	}
+
+	// draw the buttons at the bottom of the page
+	drawAdminButtons();
+}
+
+// Gets the next available question number
+function getNextQuestionNumber() {
+	let last = document.getElementById(questionWrapper).lastChild;
+	
+	if (last === null) {
+		return 1;
+	} else {
+		// read the name of the last question; if middle questions were deleted, determining
+		// the next number based on number of keys may produce duplicate names
+		last = last.getAttribute("name");
+		return parseInt(last.charAt(1)) + 1;
+	}
+}
+
+// Draws all the elements for one question on admin.html
+function addAdminQuestion(qNumber) {
+	const page = document.getElementById(questionWrapper);
+	const noQuestionMsg = document.getElementById(noQuestionPrompt);
+
+	if (noQuestionMsg !== null) {
+		page.removeChild(noQuestionMsg);
+	}
+	let inputSet = [];
+
+	const div = document.createElement("div");
+	div.classList.add("question");
+	div.setAttribute("name", namePrefix + qNumber);
+
+	// Question prompt
+	let qPrompt = document.createElement("p");
+	qPrompt.appendChild(document.createTextNode(questionHeader));
+	qPrompt.classList.add("adminText");
+	div.appendChild(qPrompt);
+
+	// Delete button
+	let del = document.createElement("button");
+	del.appendChild(document.createTextNode(deleteButtonText));
+	del.setAttribute("name", namePrefix + qNumber + "delete");
+	del.classList.add("actionButton");
+	del.onclick = function() {
+		deleteQuestion(this);
+	};
+	qPrompt.appendChild(del);
+
+	// Text area for question
+	let qText = document.createElement("textarea");
+	qText.classList.add(namePrefix + qNumber + "quest", "adminInput");
+	div.appendChild(qText);
+	div.appendChild(document.createElement("br"));
+	inputSet.push(qText);
+
+	// Code snippet prompt
+	let cPrompt = document.createElement("p");
+	cPrompt.appendChild(document.createTextNode(codeHeader));
+	cPrompt.classList.add("adminText");
+	div.appendChild(cPrompt);
+
+	// Text area for code snippet
+	let cText = document.createElement("textarea");
+	cText.setAttribute("placeholder", codePrompt);
+	cText.classList.add(namePrefix + qNumber + "code", "adminInput");
+	div.appendChild(cText);
+	div.appendChild(document.createElement("br"));
+	inputSet.push(cText);
+
+	// Answer prompt
+	let aPrompt = document.createElement("p");
+	aPrompt.appendChild(document.createTextNode(answersHeader));
+	aPrompt.classList.add("adminText");
+	div.appendChild(aPrompt);
+
+	// 4 answers exactly
+	let radios = [];
+	let choices = [];
+	for (let i = 0; i < 4; ++i) {
+		let input = document.createElement("input");
+		input.setAttribute("type", "radio");
+		input.setAttribute("name", namePrefix + qNumber + "answer");
+		input.setAttribute("value", String.fromCharCode("a".charCodeAt(0) + i));
+
+		let aText = document.createElement("input");
+		aText.setAttribute("type", "text");
+		aText.classList.add(namePrefix + qNumber + "answertext");
+
+		div.appendChild(input);
+		div.appendChild(aText);
+		div.appendChild(document.createElement("br"));
+		radios.push(input);
+		choices.push(aText);
+	}
+
+	page.appendChild(div);
+	inputSet.push(radios);
+	inputSet.push(choices);
+	return inputSet;
+}
+
+// Populates a question from local storage to the text boxes on admin.html
+function populateInput(inputSet, question, answer) {
+	// the inputset has format [question, codesnippet, array of radio buttons, array of choices]
+	inputSet[0].appendChild(document.createTextNode(question["quest"]));
+	
+	if (question.codesnippet) {
+		inputSet[1].appendChild(document.createTextNode(question["codesnippet"]));
+	}
+
+	let radios = inputSet[2];
+	radios[answer].checked = true;
+
+	let choices = inputSet[3];
+	for (let i = 0; i < choices.length; ++i) {
+		let letter = String.fromCharCode("a".charCodeAt(0) + i);
+		choices[i].value = question["choices"][letter];
+	}
+}
+
+// Draws the buttons at the bottom of admin.html
+function drawAdminButtons() {
+	let div = document.createElement("div");
+	div.setAttribute("id", submitDivId);
+	
+	let add = document.createElement("button");
+	add.appendChild(document.createTextNode(addButtonText));
+	add.onclick = function() {
+		addAdminQuestion(getNextQuestionNumber());
+	};
+	div.appendChild(add);
+
+	let save = document.createElement("button");
+	save.appendChild(document.createTextNode(saveButtonText));
+	save.classList.add("actionButton");
+	save.onclick = function() {
+		saveQuestions();
+	};
+	div.appendChild(save);
+
+	let span = document.createElement("span");
+	span.setAttribute("id", adminSubmitMessage);
+	div.appendChild(span);
+
+	document.body.appendChild(div);
+}
+
+// Validates that there is at least one question and all questions have an answer, and
+// saves the question(s) and answer(s) to local storage
+function saveQuestions() {
+	localStorage.removeItem("questions");
+	localStorage.removeItem("answers");
+	
+	let questions = getOnscreenQuestions();
+	let answers = getOnscreenAnswers();
+
+	let message = document.getElementById(adminSubmitMessage);
+	message.innerHTML = "";
+
+	if (Object.keys(questions).length === 0) {
+		message.innerHTML = noQuestionsCreatedMessage;
+		return;
+	}
+
+	if (answers === null) {
+		message.innerHTML = answersNotProvidedMessage;
+		return;
+	}
+	
+	storeQuiz(questions, answers);
+	message.innerHTML = quizSavedMessage;
+}
+
+// Gets the data for all questions shown on screen
+function getOnscreenQuestions() {
+	let allQuestions = document.getElementsByClassName("question");
+	let result = {};
+
+	for (let i = 0; i < allQuestions.length; ++i) {
+		let name = allQuestions[i].getAttribute("name");
+		let tmp = {};
+
+		tmp["name"] = namePrefix + (i+1);
+		tmp["quest"] = document.getElementsByClassName(name + "quest")[0].value;
+
+		let code = document.getElementsByClassName(name + "code")[0].value;
+		if (code != "") {
+			tmp["codesnippet"] = code.replace(/\n/gi, "<br>"); // convert newline to <br> element
+		}
+
+		let choices = document.getElementsByClassName(name + "answertext");
+		let letter = "a";
+		let tmpChoices = {};
+		for (let j = 0; j < choices.length; ++j) {
+			letter = String.fromCharCode("a".charCodeAt(0) + j);
+			tmpChoices[letter] = choices[j].value;
+		}
+		tmp["choices"] = tmpChoices;
+
+		result[i+1] = tmp;
+	}
+
+	return result;
+}
+
+// Gets the answers to the questions on the screen
+function getOnscreenAnswers() {
+	let allQuestions = document.getElementsByClassName("question");
+	let answerList = [];
+
+	for (let i = 0; i < allQuestions.length; ++i) {
+		let name = allQuestions[i].getAttribute("name");
+		let answer = document.querySelector("input[name=" + name + "answer]:checked");
+		if (answer === null) {
+			return null;
+		} else {
+			answer = answer.value.charCodeAt(0) - "a".charCodeAt(0); // convert to a number where a = 0, etc
+			answerList.push(answer);
+		}
+	}
+
+	return answerList;
+}
+
+// Deletes the selected question from the admin.html page
+function deleteQuestion(element) {
+	let page = document.getElementById(questionWrapper);
+	element.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode);
+	//let name = element.name.replace("delete", "");
+	//page.removeChild(document.getElementsByName(name)[0]);
+
+	if (!page.hasChildNodes()) {
+		let p = document.createElement("p");
+		let txt = document.createTextNode(noQuestionPrompt);
+		p.setAttribute("id", noQuestionId);
+		p.appendChild(txt);
+		page.appendChild(p);
+	}
+}
+
+// Stores quiz questions and answers in local storage
+function storeQuiz(questions, answers) {
+	localStorage.setItem("questions", JSON.stringify(questions));
+	localStorage.setItem("answers", JSON.stringify(answers));
+}
+
+// Retrieves quiz questions from local storage
+function retrieveQuiz() {
+	return JSON.parse(localStorage.getItem("questions"));
+}
+
+// Retrieves quiz answers from local storage
+function retrieveAnswers() {
+	return JSON.parse(localStorage.getItem("answers"));
+}
+
+// Driver for generating user.html
+function generateQuestions() {
+	const questions = retrieveQuiz();	
+	const page = document.getElementById(questionWrapper);
+	
+	if (questions === null) {
+		let p = document.createElement("p");
+		p.appendChild(document.createTextNode(noQuizAvailable));
+		page.appendChild(p);
+	} else {
+		const numQuestions = Object.keys(questions).length;
+	
+		// draw questions
+		for (let i = 1; i <= numQuestions; i++) {
+			let div = addUserQuestion(questions[i], i);
+			page.appendChild(div);
+		}
+
+		// draw submit button
+		let div = drawUserButtons();
+		page.appendChild(div);
+	}
+}
+
+// Populates a question on user.html given the question text and question number
+function addUserQuestion(question, qNumber) {
+	let div = document.createElement("div");
+	div.setAttribute("name", question.name);
+	div.classList.add("question");
+
+	let p = document.createElement("p");
+	p.insertAdjacentHTML("beforeend", qNumber + ") " + question.quest);
+	div.appendChild(p);
+	
+	if (question.codesnippet) {
+		let code = document.createElement("div");
+		code.setAttribute("class", "codesnippet");
+		code.insertAdjacentHTML("beforeend", question.codesnippet);
+		div.appendChild(code);
+	}
+	
+	for (choice in question.choices) {
+		let label = document.createElement("label");
+		label.classList.add(question.name + "choice");
+		let input = document.createElement("input");
+		input.setAttribute("type", "radio");
+		input.setAttribute("name", question.name + "answer");
+		input.setAttribute("value", choice);
+		label.appendChild(input);
+		label.insertAdjacentHTML("beforeend", choice + ") " + question.choices[choice]);
+		div.appendChild(label);
+		div.appendChild(document.createElement("br"));
+	}
+	return div;
+}
+
+// Draws the buttons at the bottom of user.html
+function drawUserButtons() {
+	let div = document.createElement("div");
+	div.setAttribute("id", submitDivId);
+	let button = document.createElement("button");
+	button.appendChild(document.createTextNode(submitButtonText));
+	button.onclick = function() {
+		markAnswers();
+	}
+	let span = document.createElement("span");
+	span.setAttribute("id", userSubmitMessage);
+	div.appendChild(button);
+	div.appendChild(span);
+
+	return div;
+}
+
+// Upon clicking submit, marks the user's answers by highlighting correct and incorrect responses
+function markAnswers() {
+	let answers = retrieveAnswers();
+	let message = document.getElementById(userSubmitMessage);
+
+	if (answers === null) {
+		message.innerHTML = answersNotAvailableMessage;
+	} else {
+		let userAnswers = getOnscreenAnswers();
+		
+		if (userAnswers === null) {
+			message.innerHTML = questionsNotAnsweredMessage;
+		} else {
+			let score = answers.length;
+
+			for (let i = 0; i < answers.length; ++i) {
+				let choices = document.getElementsByClassName(namePrefix + (i+1) + "choice");
+				
+				// clear existing highlighting, if any exists
+				for (let j = 0; j < choices.length; ++j) {
+					choices[j].style.backgroundColor = "";
+				}
+
+				choices[answers[i]].style.backgroundColor = correctAnswerColor;
+
+				if (userAnswers[i] != answers[i]) {
+					choices[userAnswers[i]].style.backgroundColor = wrongAnswerColor;
+					score--;
+				}
+			}
+
+			message.innerHTML = userScoreMessage.replace("{0}", score).replace("{1}", answers.length);
+		}
+	}
+}

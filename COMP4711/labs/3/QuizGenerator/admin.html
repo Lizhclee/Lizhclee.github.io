@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Quiz Admin</title>
+		<link rel="stylesheet" type="text/css" href="../../../../styles/styles.css">
+		<link rel="stylesheet" type="text/css" href="./style/quizStyles.css">
+        <script src="./javascript/quizScripts.js"></script>
+        <script src="./javascript/strings.js"></script>
+	</head>
+	
+	<body onload="generateAdmin()">
+		<div id="instructions">
+			<h2>Quiz Admin</h2>
+			<p>Add/Modify/Delete questions</p>
+			<ul>
+				<li>Add a question by clicking Add.</li>
+				<li>Fill in the question sections. Sections marked with a * are required. (Please also mark the radio button of the correct answer). A code snippet is not required for each question.</li>
+				<li>Delete a question by clicking Delete Question.</li>
+				<li>Save the quiz to local storage by clicking Save.</li>
+			</ul>
+		</div>
+		<div id="questionWrapper"></div>
+	</body>
+</html>
