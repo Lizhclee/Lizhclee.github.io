@@ -31,14 +31,14 @@ function generateAdmin() {
 
 // Gets the next available question number
 function getNextQuestionNumber() {
-	let last = document.getElementById(questionWrapper).lastChild;
+	let questions = document.getElementsByClassName("question");
 	
-	if (last === null) {
+	if (questions.length === 0) {
 		return 1;
 	} else {
 		// read the name of the last question; if middle questions were deleted, determining
 		// the next number based on number of keys may produce duplicate names
-		last = last.getAttribute("name");
+		let last = questions[questions.length-1].getAttribute("name");
 		return parseInt(last.charAt(1)) + 1;
 	}
 }
@@ -75,6 +75,7 @@ function addAdminQuestion(qNumber) {
 
 	// Text area for question
 	let qText = document.createElement("textarea");
+	qText.setAttribute("placeholder", questionPrompt);
 	qText.classList.add(namePrefix + qNumber + "quest", "adminInput");
 	div.appendChild(qText);
 	div.appendChild(document.createElement("br"));
@@ -111,7 +112,8 @@ function addAdminQuestion(qNumber) {
 
 		let aText = document.createElement("input");
 		aText.setAttribute("type", "text");
-		aText.classList.add(namePrefix + qNumber + "answertext");
+		aText.setAttribute("placeholder", answerPrompt);
+		aText.classList.add(namePrefix + qNumber + "answertext", "adminAnswer");
 
 		div.appendChild(input);
 		div.appendChild(aText);
