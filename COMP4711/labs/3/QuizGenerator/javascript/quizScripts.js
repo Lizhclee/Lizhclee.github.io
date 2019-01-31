@@ -147,8 +147,7 @@ function populateInput(inputSet, question, answer) {
 
 // Draws the buttons at the bottom of admin.html
 function drawAdminButtons() {
-	let div = document.createElement("div");
-	div.setAttribute("id", submitDivId);
+	let div = document.getElementById(submitDivId);
 	
 	let add = document.createElement("button");
 	add.appendChild(document.createTextNode(addButtonText));
@@ -168,15 +167,12 @@ function drawAdminButtons() {
 	let span = document.createElement("span");
 	span.setAttribute("id", adminSubmitMessage);
 	div.appendChild(span);
-
-	document.body.appendChild(div);
 }
 
 // Validates that there is at least one question and all questions have an answer, and
 // saves the question(s) and answer(s) to local storage
 function saveQuestions() {
-	localStorage.removeItem("questions");
-	localStorage.removeItem("answers");
+	clearLocalStorage();
 	
 	let questions = getOnscreenQuestions();
 	let answers = getOnscreenAnswers();
@@ -300,8 +296,7 @@ function generateQuestions() {
 		}
 
 		// draw submit button
-		let div = drawUserButtons();
-		page.appendChild(div);
+		drawUserButtons();
 	}
 }
 
@@ -339,8 +334,7 @@ function addUserQuestion(question, qNumber) {
 
 // Draws the buttons at the bottom of user.html
 function drawUserButtons() {
-	let div = document.createElement("div");
-	div.setAttribute("id", submitDivId);
+	let div = document.getElementById(submitDivId);
 	let button = document.createElement("button");
 	button.appendChild(document.createTextNode(submitButtonText));
 	button.onclick = function() {
@@ -350,8 +344,6 @@ function drawUserButtons() {
 	span.setAttribute("id", userSubmitMessage);
 	div.appendChild(button);
 	div.appendChild(span);
-
-	return div;
 }
 
 // Upon clicking submit, marks the user's answers by highlighting correct and incorrect responses
