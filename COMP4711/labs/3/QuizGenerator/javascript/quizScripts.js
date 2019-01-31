@@ -1,68 +1,11 @@
-function init() {
+function clearLocalStorage() {
 	localStorage.removeItem("questions");
 	localStorage.removeItem("answers");
-	let questions = {
-		"1" : {
-			"name" : "q1",
-			"quest" : "Which attribute will defer the execution of the javascript in an external file until the entire page's HTML has loaded?",
-			"choices" : {
-				"a" : "async",
-				"b" : "defer",
-				"c" : "wait",
-				"d" : "after"
-			}
-		},
-		"2" : {
-			"name" : "q2",
-			"quest" : "What is the output of the following script?",
-			"codesnippet" : "<span><span class=\"keyword\">var</span> a = <span class=\"number\">6</span>;</span><br><span><span class=\"keyword\">var</span> b = <span class=\"string\">\"3\"</span>;</span><br><span><span class=\"keyword\">console</span>.log(a+b);</span>",
-			"choices" : {
-				"a" : "9",
-				"b" : "63",
-				"c" : "18",
-				"d" : "0"
-			}
-		},
-		"3" : {
-			"name" : "q3",
-			"quest" : "What is the output of the following script?",
-			"codesnippet" : "<span><span class=\"keyword\">var</span> pens = [<span class=\"string\">\"red\"</span>, <span class=\"string\">\"green\"</span>, <span class=\"string\">\"blue\"</span>];</span><br><span>pens.unshift(<span class=\"string\">\"orange\"</span>, <span class=\"string\">\"purple\"</span>);</span><br><span>pens.push(<span class=\"string\">\"yellow\"</span>, <span class=\"string\">\"black\"</span>);</span><br><span>pens.reverse();</span><br><span><span class=\"keyword\">console</span>.log(pens.join(<span class=\"string\">\", \"</span>));</span>",
-			"choices" : {
-				"a" : "red, green, blue, orange, purple, yellow, black",
-				"b" : "black, yellow, purple, orange, blue, green, red",
-				"c" : "black, yellow, blue, green, red, purple, orange",
-				"d" : "black, yellow, red, green, blue, purple, orange"
-			}
-		},
-		"4" : {
-			"name" : "q4",
-			"quest" : "What is the difference between var and let?",
-			"choices" : {
-				"a" : "var is function scoped and let is block scoped",
-				"b" : "var is block scoped and let is function scoped",
-				"c" : "var is global scoped and let is function scoped",
-				"d" : "var is function scoped and let is global scoped"
-			}
-		},
-		"5" : {
-			"name" : "q5",
-			"quest" : "Which is a correct way to gain access to an object's property?",
-			"choices" : {
-				"a" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course[<span class=\"string\">\"title\"</span>]</span>",
-				"b" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course{<span class=\"string\">\"title\"</span>}</span>",
-				"c" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course:title</span>",
-				"d" : "<span style=\"font-family: 'Courier New', Courier, monospace\">course->title</span>"
-			}
-		}
-	};
-	
-	let answers = [1, 1, 2, 0, 0];
-	storeQuiz(questions, answers);
 }
 
 // Driver for generating the admin.html page
 function generateAdmin() {
-	init();
+	clearLocalStorage();
 	let questions = retrieveQuiz();
 	let nextNumber = getNextQuestionNumber();
 
