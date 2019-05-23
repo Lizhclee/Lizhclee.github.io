@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bad Words Filter</title>
+		<link rel="stylesheet" type="text/css" href="./styles/filter.css">
+		
+		<script type="text/javascript" src="./js/filter.js"></script>
+	</head>
+	
+	<body>
+		<p class="threadTitle">A Filtered Forum</p>
+		
+		<table id="forum">
+			<tr>
+				<th>
+					<img src="./assets/fujisaki.png">
+					<span class="username">Chihiro Fujisaki</span><br>
+					<span class="date">Posted on 11-27-2017</span>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<p>This forum filters the text you type!</p>
+					<p>Star Wars -> Danganronpa</p>
+					<p>Luke Skywalker -> Makoto Naegi</p>
+					<p>Princess Leia -> Kyoko Kirigiri</p>
+					<p>Han Solo -> Mondo Owada</p>
+					<p>Darth Vader -> Junko Enoshima</p>
+					<p>1138 -> 11037</p>
+					<p>Try it yourself!</p>
+				</td>
+			</tr>
+		</table>
+		
+		<br><br>
+		
+		<table>
+			<tr>
+				<th>
+					<img src="./assets/user.png">
+					<span class="username">Quick Reply</span>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="reply" placeholder="Type your reply here!"></textarea><br>
+					<button onclick="postReply()">Post</button>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
