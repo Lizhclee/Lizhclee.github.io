@@ -1,0 +1,35 @@
+table {
+    border-collapse: collapse;
+}
+td { 
+    height: 45px;
+    width: 45px;
+    border: solid 1px #006600;
+    margin: 0;
+    text-align: center;
+    color: #000000;
+}
+.head {
+    background-color: #006600;
+    color: #FFFFFF;
+}
+.title {
+    font-size: 1.3em;
+}
+
+.today {
+    background-color: #006600;
+    color: #FFFFFF;
+}
+
+.past {
+    background-color: #CCCCCC;
+}
+.todaytext {
+    color: #006600;
+    font-weight: bold;
+}
+.pasttext {
+    color: #CCCCCC;
+    font-weight: bold;
+}

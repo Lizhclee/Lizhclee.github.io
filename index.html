@@ -2,9 +2,32 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
         <title>Project Showcase - Elizabeth Lee</title>
+
+        <!-- Project files -->
+        <script src="./calendar/js/calendar.js"></script>
+        <link rel="stylesheet" type="text/css" href="./calendar/styles/calendar.css">
     </head>
     <body>
-        <a href="./filter/filter.html">Forum Filter</a>
+        <div>
+            <div class="col-sm-5 float-right">
+                <button onclick="calculatePrev()">Previous</button>
+                <button onclick="calculateNext()">Next</button>
+                <table id="calendar"></table>
+                <p>Note: today's date is highlighted <span class="todaytext">green</span>. Past dates are highlighted <span class="pasttext">grey</span>.</p>
+            </div>
+
+            Project Links:
+            <br>
+            <a href="./filter/filter.html">Forum Filter</a>
+        </div>
     </body>
 </html>
